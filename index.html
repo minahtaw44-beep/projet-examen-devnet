@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monitoring Réseau</title>
+    <style>
+        body { font-family: Arial; margin: 30px; }
+        table { border-collapse: collapse; width: 100%; }
+        th { background: #4CAF50; color: white; padding: 10px; }
+        td { padding: 8px; border-bottom: 1px solid #ddd; }
+        .up { color: green; }
+        .down { color: red; }
+    </style>
+</head>
+<body>
+    <h1>📡 Monitoring Réseau</h1>
+    <p>{{ message }} - {{ date }}</p>
+    
+    <h2>Équipements</h2>
+    <table>
+        <tr>
+            <th>Nom</th>
+            <th>IP</th>
+            <th>Type</th>
+            <th>Statut</th>
+        </tr>
+        {% for eq in equipements %}
+        <tr>
+            <td>{{ eq.nom }}</td>
+            <td>{{ eq.ip }}</td>
+            <td>{{ eq.type }}</td>
+            <td class="{{ eq.status }}">{{ eq.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <p><a href="/api/equipements">Voir API JSON</a></p>
+</body>
+</html>
