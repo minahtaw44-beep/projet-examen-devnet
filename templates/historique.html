@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Historique des pannes</title>
+    <meta charset="UTF-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: rgba(255,255,255,0.95); border-radius: 15px; padding: 30px; margin-bottom: 30px; text-align: center; }
+        .table-container { background: white; border-radius: 15px; padding: 25px; margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; }
+        .alert-badge { background: #f8d7da; color: #721c24; padding: 5px 12px; border-radius: 20px; display: inline-block; }
+        .back-link { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 10px; margin-right: 10px; }
+        .empty { text-align: center; padding: 40px; color: #666; }
+        .stat { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📜 Historique des alertes</h1>
+            <p>Dernière mise à jour : {{ date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        </div>
+
+        <div class="table-container">
+            <div class="stat">
+                <strong>📊 Total des alertes :</strong> {{ historique|length }}
+            </div>
+            
+            {% if historique %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Équipement</th>
+                        <th>IP</th>
+                        <th>Date</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alerte in historique|reverse %}
+                    <tr>
+                        <td>#{{ alerte.id }}</td>
+                        <td><strong>{{ alerte.equipement }}</strong></td>
+                        <td>{{ alerte.ip }}</td>
+                        <td>{{ alerte.date }}</td>
+                        <td><span class="alert-badge">{{ alerte.message }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty">
+                <p>📭 Aucune alerte pour le moment</p>
+                <p>Les alertes apparaîtront ici quand des équipements seront DOWN.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div style="text-align: center;">
+            <a href="/" class="back-link">🏠 Retour au tableau de bord</a>
+            <a href="/api/historique" target="_blank" class="back-link" style="background: #28a745;">📡 API JSON</a>
+        </div>
+    </div>
+</body>
+</html>
